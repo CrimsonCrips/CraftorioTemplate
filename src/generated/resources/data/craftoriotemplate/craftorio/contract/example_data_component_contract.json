@@ -1,12 +1,8 @@
 {
   "basePointValue": "1000",
-  "description": "registry.example_contract.description",
+  "description": "registry.example_data_component_contract.description",
   "icon": "craftorio:textures/gui/default_contract_icon.png",
   "itemBounty": [
-    {
-      "amountRequired": 16,
-      "contract_item": "minecraft:iron_ingot"
-    },
     {
       "amountRequired": 1,
       "contract_item_stack": {
@@ -37,7 +33,7 @@
     }
   ],
   "max_point_threshold": "1000000",
-  "name": "registry.example_contract.title",
+  "name": "registry.example_data_component_contract.title",
   "seconds": 600,
   "weight": 10
 }

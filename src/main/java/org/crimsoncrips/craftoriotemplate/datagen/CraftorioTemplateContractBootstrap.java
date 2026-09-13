@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.crimsoncrips.craftorio.Craftorio;
 import org.crimsoncrips.craftorio.CraftorioDataComponents;
+import org.crimsoncrips.craftorio.datagen.tags.CraftorioItemTagGen;
 import org.crimsoncrips.craftorio.item.CraftorioItems;
 import org.crimsoncrips.craftorio.registries.contract.CraftorioContract;
 import org.crimsoncrips.craftorio.registries.contract.CraftorioContractItem;
@@ -30,15 +31,52 @@ public class CraftorioTemplateContractBootstrap {
         requiredRune.set(CraftorioDataComponents.EFFECTS_STORED.get(), List.of(requiredRuneEffect));
 
         context.register(
-                ResourceKey.create(CraftorioContract.REGISTRY_KEY, ResourceLocation.fromNamespaceAndPath(Craftoriotemplate.MODID, "example_contract")),
+                ResourceKey.create(CraftorioContract.REGISTRY_KEY, ResourceLocation.fromNamespaceAndPath(Craftoriotemplate.MODID, "example_data_component_contract")),
+                new CraftorioContract(
+                        List.of(
+                                new CraftorioContractItem(1, requiredRune)
+                        ),
+                        "example_data_component_contract", 600, BigInteger.valueOf(1000),
+                        List.of(
+                                new CraftorioContractItemReward(4, Items.DIAMOND)
+                        ),
+                        DEFAULT_ICON,
+                        Optional.empty(),
+                        10,
+                        BigInteger.ZERO, BigInteger.ZERO, BigInteger.valueOf(1_000_000),
+                        Optional.empty()
+                )
+        );
+
+        context.register(
+                ResourceKey.create(CraftorioContract.REGISTRY_KEY, ResourceLocation.fromNamespaceAndPath(Craftoriotemplate.MODID, "example_item_tag_contract")),
+                new CraftorioContract(
+                        List.of(
+                                new CraftorioContractItem(32, CraftorioItemTagGen.COPPER)
+                        ),
+                        "example_item_tag_contract", 600, BigInteger.valueOf(800),
+                        List.of(
+                                new CraftorioContractItemReward(2, Items.EMERALD)
+                        ),
+                        DEFAULT_ICON,
+                        Optional.empty(),
+                        10,
+                        BigInteger.ZERO, BigInteger.ZERO, BigInteger.valueOf(1_000_000),
+                        Optional.empty()
+                )
+        );
+
+        context.register(
+                ResourceKey.create(CraftorioContract.REGISTRY_KEY, ResourceLocation.fromNamespaceAndPath(Craftoriotemplate.MODID, "example_item_list_contract")),
                 new CraftorioContract(
                         List.of(
                                 new CraftorioContractItem(16, Items.IRON_INGOT),
-                                new CraftorioContractItem(1, requiredRune)
+                                new CraftorioContractItem(8, Items.GOLD_INGOT),
+                                new CraftorioContractItem(4, Items.DIAMOND)
                         ),
-                        "example_contract", 600, BigInteger.valueOf(1000),
+                        "example_item_list_contract", 600, BigInteger.valueOf(1200),
                         List.of(
-                                new CraftorioContractItemReward(4, Items.DIAMOND)
+                                new CraftorioContractItemReward(1, Items.NETHERITE_SCRAP)
                         ),
                         DEFAULT_ICON,
                         Optional.empty(),

@@ -1,0 +1,11 @@
+{
+  "type": "craftorio:modifier",
+  "parent": "craftorio:root",
+  "cost": "100",
+  "description": "misc.craftoriotemplate.upgrade_modifier_target_contract_completion_mult_per_contract_description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "name": "misc.craftoriotemplate.upgrade_modifier_target_contract_completion_mult_per_contract",
+  "operation": "ADD",
+  "target": "CONTRACT_COMPLETION_MULT_PER_CONTRACT",
+  "value": 0.001
+}

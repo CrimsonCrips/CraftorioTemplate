@@ -1,0 +1,10 @@
+{
+  "type": "craftorio:resistance",
+  "parent": "craftorio:root",
+  "cost": "100",
+  "description": "misc.craftoriotemplate.upgrade_attribute_resistance_description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "name": "misc.craftoriotemplate.upgrade_attribute_resistance",
+  "operation": "ADD",
+  "value": 1.0
+}

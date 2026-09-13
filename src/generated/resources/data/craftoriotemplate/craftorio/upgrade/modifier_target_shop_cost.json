@@ -1,0 +1,11 @@
+{
+  "type": "craftorio:modifier",
+  "parent": "craftorio:root",
+  "cost": "100",
+  "description": "misc.craftoriotemplate.upgrade_modifier_target_shop_cost_description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "name": "misc.craftoriotemplate.upgrade_modifier_target_shop_cost",
+  "operation": "MULTIPLY",
+  "target": "SHOP_COST",
+  "value": -0.1
+}

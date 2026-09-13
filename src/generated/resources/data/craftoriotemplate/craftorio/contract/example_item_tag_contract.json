@@ -1,0 +1,24 @@
+{
+  "basePointValue": "800",
+  "description": "registry.example_item_tag_contract.description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "itemBounty": [
+    {
+      "amountRequired": 32,
+      "contract_tag": "#craftorio:copper"
+    }
+  ],
+  "itemRewards": [
+    {
+      "amountGiving": 2,
+      "rewardingItem": {
+        "count": 1,
+        "id": "minecraft:emerald"
+      }
+    }
+  ],
+  "max_point_threshold": "1000000",
+  "name": "registry.example_item_tag_contract.title",
+  "seconds": 600,
+  "weight": 10
+}

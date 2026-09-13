@@ -2,7 +2,7 @@
   "type": "craftorio:general_multiplier",
   "icon": "craftorio:textures/gui/default_contract_icon.png",
   "multiplier": 1.5,
-  "name": "registry.craftoriotemplate_example_buff",
+  "name": "registry.craftoriotemplate_example_general_effect",
   "seconds": 45,
   "weight": 10
 }

@@ -1,0 +1,10 @@
+{
+  "type": "craftorio:xp_gain",
+  "parent": "craftorio:root",
+  "cost": "100",
+  "description": "misc.craftoriotemplate.upgrade_attribute_xp_gain_description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "name": "misc.craftoriotemplate.upgrade_attribute_xp_gain",
+  "operation": "ADD",
+  "value": 0.1
+}

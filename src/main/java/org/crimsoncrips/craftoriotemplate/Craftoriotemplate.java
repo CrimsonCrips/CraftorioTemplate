@@ -31,6 +31,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.crimsoncrips.craftoriotemplate.datagen.CraftorioTemplateDatagen;
+import org.crimsoncrips.craftoriotemplate.skill_tree.CraftorioTemplateUpgradeTypes;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -67,6 +68,8 @@ public class Craftoriotemplate {
         modEventBus.addListener(this::commonSetup);
 
         modEventBus.addListener(CraftorioTemplateDatagen::generateData);
+
+        CraftorioTemplateUpgradeTypes.TYPES.register(modEventBus);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);

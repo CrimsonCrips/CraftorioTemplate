@@ -1,0 +1,32 @@
+{
+  "basePointValue": "1200",
+  "description": "registry.example_item_list_contract.description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "itemBounty": [
+    {
+      "amountRequired": 16,
+      "contract_item": "minecraft:iron_ingot"
+    },
+    {
+      "amountRequired": 8,
+      "contract_item": "minecraft:gold_ingot"
+    },
+    {
+      "amountRequired": 4,
+      "contract_item": "minecraft:diamond"
+    }
+  ],
+  "itemRewards": [
+    {
+      "amountGiving": 1,
+      "rewardingItem": {
+        "count": 1,
+        "id": "minecraft:netherite_scrap"
+      }
+    }
+  ],
+  "max_point_threshold": "1000000",
+  "name": "registry.example_item_list_contract.title",
+  "seconds": 600,
+  "weight": 10
+}

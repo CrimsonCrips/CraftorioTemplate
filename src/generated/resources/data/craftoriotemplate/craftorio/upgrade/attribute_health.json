@@ -1,0 +1,10 @@
+{
+  "type": "craftorio:health",
+  "parent": "craftorio:root",
+  "cost": "100",
+  "description": "misc.craftoriotemplate.upgrade_attribute_health_description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "name": "misc.craftoriotemplate.upgrade_attribute_health",
+  "operation": "ADD",
+  "value": 2.0
+}
