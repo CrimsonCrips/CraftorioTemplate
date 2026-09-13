@@ -1,5 +1,11 @@
 {
   "itemGroup.craftoriotemplate": "Example Mod Tab",
   "block.craftoriotemplate.example_block": "Example Block",
-  "item.craftoriotemplate.example_item": "Example Item"
+  "item.craftoriotemplate.example_item": "Example Item",
+  "registry.example_contract.title": "Iron Requisition",
+  "registry.example_contract.description": "A demo contract registered by CraftorioTemplate.",
+  "registry.craftoriotemplate_example_buff": "Template Example Buff",
+  "registry.craftoriotemplate_required_effect": "Required Rune Effect",
+  "misc.craftoriotemplate.upgrade_example_upgrade": "Template Example Upgrade",
+  "misc.craftoriotemplate.upgrade_example_upgrade_description": "A demo upgrade registered by CraftorioTemplate, attached to Craftorio's own skill tree root."
 }

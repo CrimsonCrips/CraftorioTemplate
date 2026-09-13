@@ -1,0 +1,43 @@
+{
+  "basePointValue": "1000",
+  "description": "registry.example_contract.description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "itemBounty": [
+    {
+      "amountRequired": 16,
+      "contract_item": "minecraft:iron_ingot"
+    },
+    {
+      "amountRequired": 1,
+      "contract_item_stack": {
+        "components": {
+          "craftorio:effects_stored": [
+            {
+              "type": "craftorio:general_multiplier",
+              "icon": "craftorio:textures/gui/default_contract_icon.png",
+              "multiplier": 2.0,
+              "name": "registry.craftoriotemplate_required_effect",
+              "seconds": 60,
+              "weight": 10
+            }
+          ]
+        },
+        "count": 1,
+        "id": "craftorio:effect_rune"
+      }
+    }
+  ],
+  "itemRewards": [
+    {
+      "amountGiving": 4,
+      "rewardingItem": {
+        "count": 1,
+        "id": "minecraft:diamond"
+      }
+    }
+  ],
+  "max_point_threshold": "1000000",
+  "name": "registry.example_contract.title",
+  "seconds": 600,
+  "weight": 10
+}
