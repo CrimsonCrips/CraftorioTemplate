@@ -186,3 +186,93 @@ public static void generateData(GatherDataEvent event) {
 ```
 
 Running `runData` now produces `data/craftoriotemplate/craftorio/contract/my_contract.json` alongside Craftorio's own `data/craftorio/craftorio/contract/*.json` files — both get picked up together at runtime, and your contract shows up in the game exactly like one of Craftorio's own.
+
+## What datagen actually produces
+
+Here's Craftorio's own `cake_delivery` contract's generated JSON, for the exact bootstrap call shown earlier in this page — this is the real file `runData` writes to `data/craftorio/craftorio/contract/cake_delivery.json`:
+
+```json
+{
+  "basePointValue": "300",
+  "description": "registry.cake_delivery.description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "itemBounty": [
+    {
+      "amountRequired": 1,
+      "contract_item": "minecraft:cake"
+    }
+  ],
+  "itemRewards": [
+    {
+      "amountGiving": 1,
+      "rewardingItem": {
+        "count": 1,
+        "id": "minecraft:gold_ingot"
+      }
+    }
+  ],
+  "max_point_threshold": "10000",
+  "name": "registry.cake_delivery.title",
+  "seconds": 120,
+  "weight": 10
+}
+```
+
+Notice `Optional.empty()` fields (`punishment`, `requiredModId`) are omitted entirely rather than written as `null`, and `pointThreshold`/`minPointThreshold` are likewise omitted here since they were passed as `BigInteger.ZERO` (the codec's default). Compare this to `hephaestus_prison`, which sets a punishment and gives Effect Rune rewards with `randomEffectCount`:
+
+```json
+{
+  "basePointValue": "500000000",
+  "description": "registry.hephaestus_prison.description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "itemBounty": [
+    { "amountRequired": 211179, "contract_item": "minecraft:andesite" },
+    { "amountRequired": 87, "contract_item": "minecraft:anvil" }
+  ],
+  "itemRewards": [
+    {
+      "amountGiving": 5,
+      "randomEffectCount": 2,
+      "rewardingItem": { "count": 1, "id": "craftorio:effect_rune" }
+    },
+    {
+      "amountGiving": 3,
+      "randomEffectCount": 2,
+      "rewardingItem": { "count": 1, "id": "craftorio:mystery_effect_rune" }
+    }
+  ],
+  "min_point_threshold": "10000000",
+  "name": "registry.hephaestus_prison.title",
+  "point_threshold": "10000000000",
+  "punishment": "craftorio:general/commeupance_of_the_gods",
+  "seconds": 43200,
+  "weight": 10
+}
+```
+
+`randomEffectCount` sits right alongside `rewardingItem` and `amountGiving` — it's just the optional third field on `CraftorioContractItemReward.CODEC`.
+
+If you register a bounty line using the data-component (`ItemStack`) constructor from earlier in this page — requiring a rune with one specific rolled effect — the bounty line serializes with a `contract_item_stack` field instead of `contract_item`, and the item's data components nest under `components`:
+
+```json
+{
+  "amountRequired": 1,
+  "contract_item_stack": {
+    "id": "craftorio:effect_rune",
+    "count": 1,
+    "components": {
+      "craftorio:effects_stored": [
+        {
+          "type": "craftorio:general_multiplier",
+          "multiplier": 2.0,
+          "name": "registry.my_effect",
+          "seconds": 60,
+          "weight": 10
+        }
+      ]
+    }
+  }
+}
+```
+
+This is exactly why `ItemStack.isSameItemSameComponents` matching exists as a separate mode from plain `contract_item` — the JSON captures the full component state, not just the item id, so a rune with a *different* rolled effect (or no `effects_stored` component at all) fails to match this bounty line.

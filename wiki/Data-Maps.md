@@ -122,3 +122,21 @@ protected void gather() {
 This generates `data/<your_modid>/data_maps/item/point_value.json` (note: **your own mod's namespace**, not `craftorio`) alongside Craftorio's own `data/craftorio/data_maps/item/point_value.json`. Both files contribute to the same `craftorio:point_value` data map, and since your addon depends on (and loads after) Craftorio, your entry for `minecraft:diamond` is the one that wins — no special JSON field is required for the common "my addon overrides Craftorio's own defaults" case. If you ever do need to force a value to win in a situation where the load order isn't in your favor, that's what `replace: true` is for on an `AdvancedDataMapType` — but again, `POINT_VALUE` itself doesn't need it.
 
 `EFFECT_POINT_VALUE` (keyed on `MobEffect`) and `ENCHANTMENT_POINT_VALUE` (keyed on `Enchantment`) work identically — same `Builder<String, R>` API, same addition/replacement behavior, just a different registry type.
+
+## What datagen actually produces
+
+A single `DataMapProvider` writes one JSON file per data map, no matter how many `.add(...)` calls you made — every entry lands in the same file's `values` object. Here's a real excerpt of Craftorio's own generated `data/craftorio/data_maps/item/point_value.json`, produced from hundreds of `addItemValue(...)` calls in `CraftorioPointsDeterminer`:
+
+```json
+{
+  "values": {
+    "#c:concrete_powders": "2",
+    "#c:dyes": "2",
+    "#craftorio:copper": "135",
+    "minecraft:diamond": "120",
+    "minecraft:gold_ingot": "40"
+  }
+}
+```
+
+Tag-keyed entries (from `pointValue.add(TagKey<Item>, ...)`) serialize with a `#` prefix exactly like tag references anywhere else in Minecraft's data format; plain item entries are just their id. If your own `MyPointsProvider` also registers `minecraft:diamond`, your addon's own `data/craftoriotemplate/data_maps/item/point_value.json` will contain its own `"minecraft:diamond": "9999"` entry in a completely separate file — there's no merged single file you'd ever hand-edit; NeoForge combines the two files' `values` maps at load time using the merge rules described above.

@@ -109,3 +109,49 @@ event.getGenerator().addProvider(event.includeServer(),
 ```
 
 This produces `data/craftoriotemplate/craftorio/effect/my_buff.json`, loaded alongside Craftorio's own effects. Since `weight` and `unobtainable` are ordinary fields in the JSON, a server admin can also just as easily hand-write a matching JSON file with no addon mod involved at all.
+
+## What datagen actually produces
+
+Craftorio's `general/multiplier_5` (a plain `GeneralMultiplierEffect`, `unobtainable` omitted since it's `false`, the codec's default):
+
+```json
+{
+  "type": "craftorio:general_multiplier",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "multiplier": 5.0,
+  "name": "registry.general_multiplier_5",
+  "seconds": 30,
+  "weight": 10
+}
+```
+
+`tag/copper_block_buff` (a `TagMultiplierEffect` — note the extra `item_tag` field, serialized with the `#` tag prefix, and `unobtainable: true` explicitly written since it differs from the default):
+
+```json
+{
+  "type": "craftorio:tag_multiplier",
+  "icon": "craftorio:textures/gui/locked.png",
+  "item_tag": "#craftorio:copper",
+  "multiplier": 100.0,
+  "name": "registry.copper_block_buff",
+  "seconds": 25,
+  "unobtainable": true,
+  "weight": 10
+}
+```
+
+`shop/kingdom_tariff` (a `ShopMultiplierEffect`, structurally identical to `GeneralMultiplierEffect`'s JSON apart from the `type`):
+
+```json
+{
+  "type": "craftorio:shop_multiplier",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "multiplier": -1.25,
+  "name": "registry.kingdom_tariff",
+  "seconds": 1200,
+  "unobtainable": true,
+  "weight": 10
+}
+```
+
+The `"type"` field is what the dispatch codec (`CraftorioEffects.dispatchCodec()`) uses to pick which `MapCodec` — and therefore which Java class — to deserialize the rest of the object with. It always matches whatever id you gave that type in `CraftorioEffectTypes` (`general_multiplier`, `tag_multiplier`, `shop_multiplier`), not the effect *instance's* own registry id.

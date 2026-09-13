@@ -243,3 +243,51 @@ public static void bootstrap(BootstrapContext<CraftorioUpgrade> context) {
 ```
 
 Note `.parent(craftorioRoot)` here takes a plain `ResourceKey`/`ResourceLocation` (the other `.parent(...)` overload) rather than a `Holder.Reference`, since Craftorio's `root` upgrade was registered in a different bootstrap you don't have a `Holder.Reference` for — you just need its id. Wire this into your own `RegistrySetBuilder` the same way as the other two registries, and your upgrade appears attached directly onto Craftorio's own tree.
+
+## What datagen actually produces
+
+`health_1`, a `CraftorioAttributeUpgrade` subclass (`HealthUpgrade`) — note `type` names the upgrade *type* id (`craftorio:health`, from `CraftorioUpgradeTypes`), while `parent` names the *instance* id of another upgrade (`craftorio:root`):
+
+```json
+{
+  "type": "craftorio:health",
+  "parent": "craftorio:root",
+  "cost": "1000",
+  "description": "misc.craftorio.upgrade_health_1_description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "name": "misc.craftorio.upgrade_health_1",
+  "operation": "ADD",
+  "value": 2.0
+}
+```
+
+`multiplier_1`, a plain `CraftorioModifierUpgrade` — one extra field (`target`) compared to `HealthUpgrade`'s JSON, since the generic modifier type needs to say *which* formula it feeds into:
+
+```json
+{
+  "type": "craftorio:modifier",
+  "parent": "craftorio:root",
+  "cost": "5000",
+  "description": "misc.craftorio.upgrade_multiplier_1_description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "name": "misc.craftorio.upgrade_multiplier_1",
+  "operation": "ADD",
+  "target": "MULTIPLIER",
+  "value": 0.1
+}
+```
+
+`sink_value_scaling`, an `ActionUpgrade` — no `operation`/`value`/`target` at all, since `ActionUpgrade.Common`'s codec only carries the five base fields every upgrade has:
+
+```json
+{
+  "type": "craftorio:sink_value_scaling",
+  "parent": "craftorio:root",
+  "cost": "10000",
+  "description": "misc.craftorio.upgrade_sink_value_scaling_description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "name": "misc.craftorio.upgrade_sink_value_scaling"
+}
+```
+
+This is the clearest illustration of the datagen/manual split from earlier in this page: a `CraftorioModifierUpgrade` or `CraftorioAttributeUpgrade` JSON always carries the numeric payload that makes it self-sufficient at runtime, while an `ActionUpgrade` JSON is just an id, a cost, and a tree position — all of its actual behavior lives in Java code (`activateFunction()`, or a `hasUnlockedUpgrade` check elsewhere), not in the generated data.
