@@ -1,0 +1,11 @@
+{
+  "type": "craftorio:modifier",
+  "parent": "craftorio:root",
+  "cost": "100",
+  "description": "misc.craftoriotemplate.upgrade_modifier_target_bet_odds_description",
+  "icon": "craftorio:textures/gui/default_contract_icon.png",
+  "name": "misc.craftoriotemplate.upgrade_modifier_target_bet_odds",
+  "operation": "ADD",
+  "target": "BET_ODDS",
+  "value": 0.1
+}

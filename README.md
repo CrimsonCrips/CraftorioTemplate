@@ -6,6 +6,7 @@ An example addon for [Craftorio](https://github.com/CrimsonCrips/Craftorio) — 
 
 The [wiki](https://github.com/CrimsonCrips/CraftorioTemplate/wiki) walks through each system with real code from this repo:
 
+- [Dev Tools](https://github.com/CrimsonCrips/CraftorioTemplate/wiki/Dev-Tools) — generate contracts/effects/upgrades in-game instead of hand-writing them, as Java or as ready-to-drop-in JSON
 - [Making a Contract](https://github.com/CrimsonCrips/CraftorioTemplate/wiki/Making-a-Contract)
 - [Making an Effect](https://github.com/CrimsonCrips/CraftorioTemplate/wiki/Making-an-Effect)
 - [Making an Upgrade](https://github.com/CrimsonCrips/CraftorioTemplate/wiki/Making-an-Upgrade) / [Modifier Targets](https://github.com/CrimsonCrips/CraftorioTemplate/wiki/Modifier-Targets)

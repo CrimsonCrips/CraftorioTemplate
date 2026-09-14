@@ -6,18 +6,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import org.crimsoncrips.craftorio.Craftorio;
 import org.crimsoncrips.craftorio.datagen.tags.CraftorioItemTagGen;
+import org.crimsoncrips.craftorio.skill_tree.AttributeTarget;
 import org.crimsoncrips.craftorio.skill_tree.CraftorioUpgrade;
 import org.crimsoncrips.craftorio.skill_tree.ModifierTarget;
 import org.crimsoncrips.craftorio.skill_tree.UpgradeOperation;
-import org.crimsoncrips.craftorio.skill_tree.upgrade_types.datagen.BlockReachUpgrade;
+import org.crimsoncrips.craftorio.skill_tree.upgrade_types.datagen.CraftorioAttributeUpgrade;
 import org.crimsoncrips.craftorio.skill_tree.upgrade_types.datagen.CraftorioModifierUpgrade;
-import org.crimsoncrips.craftorio.skill_tree.upgrade_types.datagen.DamageUpgrade;
-import org.crimsoncrips.craftorio.skill_tree.upgrade_types.datagen.DefenseUpgrade;
-import org.crimsoncrips.craftorio.skill_tree.upgrade_types.datagen.HealthUpgrade;
-import org.crimsoncrips.craftorio.skill_tree.upgrade_types.datagen.JumpHeightUpgrade;
-import org.crimsoncrips.craftorio.skill_tree.upgrade_types.datagen.ResistanceUpgrade;
-import org.crimsoncrips.craftorio.skill_tree.upgrade_types.datagen.SpeedUpgrade;
-import org.crimsoncrips.craftorio.skill_tree.upgrade_types.datagen.XpGainUpgrade;
 import org.crimsoncrips.craftoriotemplate.Craftoriotemplate;
 import org.crimsoncrips.craftoriotemplate.skill_tree.ExampleManualUpgrade;
 
@@ -52,16 +46,17 @@ public class CraftorioTemplateUpgradeBootstrap {
         modifierExample(context, rootLocation, "item_base_value", ModifierTarget.ITEM_BASE_VALUE, UpgradeOperation.MULTIPLY, 0.1);
         modifierExample(context, rootLocation, "contract_refresh_speed", ModifierTarget.CONTRACT_REFRESH_SPEED, UpgradeOperation.MULTIPLY, 0.1);
         modifierExample(context, rootLocation, "effect_timer_speed", ModifierTarget.EFFECT_TIMER_SPEED, UpgradeOperation.MULTIPLY, 0.1);
-        modifierExample(context, rootLocation, "punishment_effect_duration", ModifierTarget.PUNISHMENT_EFFECT_DURATION, UpgradeOperation.MULTIPLY, -0.1);
+        modifierExample(context, rootLocation, "punishment_duration", ModifierTarget.PUNISHMENT_DURATION, UpgradeOperation.MULTIPLY, -0.1);
         modifierExample(context, rootLocation, "effect_duration", ModifierTarget.EFFECT_DURATION, UpgradeOperation.MULTIPLY, 0.1);
-        modifierExample(context, rootLocation, "claim_chunk_cost", ModifierTarget.CLAIM_CHUNK_COST, UpgradeOperation.MULTIPLY, -0.1);
-        modifierExample(context, rootLocation, "border_expansion_cost", ModifierTarget.BORDER_EXPANSION_COST, UpgradeOperation.MULTIPLY, -0.1);
-        modifierExample(context, rootLocation, "better_contract_chance", ModifierTarget.BETTER_CONTRACT_CHANCE, UpgradeOperation.ADD, 0.1);
-        modifierExample(context, rootLocation, "better_effect_chance", ModifierTarget.BETTER_EFFECT_CHANCE, UpgradeOperation.ADD, 0.1);
+        modifierExample(context, rootLocation, "expansion_cost", ModifierTarget.EXPANSION_COST, UpgradeOperation.MULTIPLY, -0.1);
+        modifierExample(context, rootLocation, "rarer_contract_chance", ModifierTarget.RARER_CONTRACT_CHANCE, UpgradeOperation.ADD, 0.1);
+        modifierExample(context, rootLocation, "rarer_effect_chance", ModifierTarget.RARER_EFFECT_CHANCE, UpgradeOperation.ADD, 0.1);
         modifierExample(context, rootLocation, "shop_cost", ModifierTarget.SHOP_COST, UpgradeOperation.MULTIPLY, -0.1);
         modifierExample(context, rootLocation, "contract_refresh_cost", ModifierTarget.CONTRACT_REFRESH_COST, UpgradeOperation.MULTIPLY, -0.1);
-        modifierExample(context, rootLocation, "double_or_nothing_loss_refund", ModifierTarget.DOUBLE_OR_NOTHING_LOSS_REFUND, UpgradeOperation.ADD, 0.1);
-        modifierExample(context, rootLocation, "contract_completion_mult_per_contract", ModifierTarget.CONTRACT_COMPLETION_MULT_PER_CONTRACT, UpgradeOperation.ADD, 0.001);
+        modifierExample(context, rootLocation, "lost_bet_refund", ModifierTarget.LOST_BET_REFUND, UpgradeOperation.ADD, 0.1);
+        modifierExample(context, rootLocation, "mult_per_contract_done", ModifierTarget.MULT_PER_CONTRACT_DONE, UpgradeOperation.ADD, 0.001);
+        modifierExample(context, rootLocation, "bet_odds", ModifierTarget.BET_ODDS, UpgradeOperation.ADD, 0.1);
+        modifierExample(context, rootLocation, "bet_bonus", ModifierTarget.BET_BONUS, UpgradeOperation.ADD, 0.5);
 
         // ITEM_TAG_BASE_VALUE needs an item tag on top of the target/operation/value, via the 5-arg CraftorioModifierUpgrade.of overload.
         CraftorioUpgrade.builder()
@@ -73,71 +68,16 @@ public class CraftorioTemplateUpgradeBootstrap {
                 .save(context, id("modifier_target_item_tag_base_value"),
                         b -> CraftorioModifierUpgrade.of(b, ModifierTarget.ITEM_TAG_BASE_VALUE, UpgradeOperation.MULTIPLY, 0.1, CraftorioItemTagGen.COPPER));
 
-        // One example per CraftorioAttributeUpgrade subclass, showing the "apply a vanilla Attribute" family of upgrade functions.
+        // One CraftorioAttributeUpgrade example per AttributeTarget, showing the generic "apply a vanilla Attribute" mechanism.
 
-        CraftorioUpgrade.builder()
-                .name("misc.craftoriotemplate.upgrade_attribute_health")
-                .icon(DEFAULT_ICON)
-                .parent(rootLocation)
-                .description("misc.craftoriotemplate.upgrade_attribute_health_description")
-                .cost(100)
-                .save(context, id("attribute_health"), b -> HealthUpgrade.of(b, UpgradeOperation.ADD, 2.0));
-
-        CraftorioUpgrade.builder()
-                .name("misc.craftoriotemplate.upgrade_attribute_speed")
-                .icon(DEFAULT_ICON)
-                .parent(rootLocation)
-                .description("misc.craftoriotemplate.upgrade_attribute_speed_description")
-                .cost(100)
-                .save(context, id("attribute_speed"), b -> SpeedUpgrade.of(b, UpgradeOperation.ADD, 0.02));
-
-        CraftorioUpgrade.builder()
-                .name("misc.craftoriotemplate.upgrade_attribute_defense")
-                .icon(DEFAULT_ICON)
-                .parent(rootLocation)
-                .description("misc.craftoriotemplate.upgrade_attribute_defense_description")
-                .cost(100)
-                .save(context, id("attribute_defense"), b -> DefenseUpgrade.of(b, UpgradeOperation.ADD, 1.0));
-
-        CraftorioUpgrade.builder()
-                .name("misc.craftoriotemplate.upgrade_attribute_damage")
-                .icon(DEFAULT_ICON)
-                .parent(rootLocation)
-                .description("misc.craftoriotemplate.upgrade_attribute_damage_description")
-                .cost(100)
-                .save(context, id("attribute_damage"), b -> DamageUpgrade.of(b, UpgradeOperation.ADD, 1.0));
-
-        CraftorioUpgrade.builder()
-                .name("misc.craftoriotemplate.upgrade_attribute_block_reach")
-                .icon(DEFAULT_ICON)
-                .parent(rootLocation)
-                .description("misc.craftoriotemplate.upgrade_attribute_block_reach_description")
-                .cost(100)
-                .save(context, id("attribute_block_reach"), b -> BlockReachUpgrade.of(b, UpgradeOperation.ADD, 1.0));
-
-        CraftorioUpgrade.builder()
-                .name("misc.craftoriotemplate.upgrade_attribute_jump_height")
-                .icon(DEFAULT_ICON)
-                .parent(rootLocation)
-                .description("misc.craftoriotemplate.upgrade_attribute_jump_height_description")
-                .cost(100)
-                .save(context, id("attribute_jump_height"), b -> JumpHeightUpgrade.of(b, UpgradeOperation.ADD, 0.1));
-
-        CraftorioUpgrade.builder()
-                .name("misc.craftoriotemplate.upgrade_attribute_xp_gain")
-                .icon(DEFAULT_ICON)
-                .parent(rootLocation)
-                .description("misc.craftoriotemplate.upgrade_attribute_xp_gain_description")
-                .cost(100)
-                .save(context, id("attribute_xp_gain"), b -> XpGainUpgrade.of(b, UpgradeOperation.ADD, 0.1));
-
-        CraftorioUpgrade.builder()
-                .name("misc.craftoriotemplate.upgrade_attribute_resistance")
-                .icon(DEFAULT_ICON)
-                .parent(rootLocation)
-                .description("misc.craftoriotemplate.upgrade_attribute_resistance_description")
-                .cost(100)
-                .save(context, id("attribute_resistance"), b -> ResistanceUpgrade.of(b, UpgradeOperation.ADD, 1.0));
+        attributeExample(context, rootLocation, "health", AttributeTarget.HEALTH, UpgradeOperation.ADD, 2.0);
+        attributeExample(context, rootLocation, "speed", AttributeTarget.SPEED, UpgradeOperation.ADD, 0.02);
+        attributeExample(context, rootLocation, "defense", AttributeTarget.DEFENSE, UpgradeOperation.ADD, 1.0);
+        attributeExample(context, rootLocation, "damage", AttributeTarget.DAMAGE, UpgradeOperation.ADD, 1.0);
+        attributeExample(context, rootLocation, "block_reach", AttributeTarget.BLOCK_REACH, UpgradeOperation.ADD, 1.0);
+        attributeExample(context, rootLocation, "jump_height", AttributeTarget.JUMP_HEIGHT, UpgradeOperation.ADD, 0.1);
+        attributeExample(context, rootLocation, "xp_gain", AttributeTarget.XP_GAIN, UpgradeOperation.ADD, 0.1);
+        attributeExample(context, rootLocation, "resistance", AttributeTarget.RESISTANCE, UpgradeOperation.ADD, 1.0);
     }
 
     private static void modifierExample(BootstrapContext<CraftorioUpgrade> context, ResourceLocation rootLocation, String idSuffix, ModifierTarget target, UpgradeOperation operation, double value) {
@@ -148,6 +88,16 @@ public class CraftorioTemplateUpgradeBootstrap {
                 .description("misc.craftoriotemplate.upgrade_modifier_target_" + idSuffix + "_description")
                 .cost(100)
                 .save(context, id("modifier_target_" + idSuffix), b -> CraftorioModifierUpgrade.of(b, target, operation, value));
+    }
+
+    private static void attributeExample(BootstrapContext<CraftorioUpgrade> context, ResourceLocation rootLocation, String idSuffix, AttributeTarget target, UpgradeOperation operation, double value) {
+        CraftorioUpgrade.builder()
+                .name("misc.craftoriotemplate.upgrade_attribute_" + idSuffix)
+                .icon(DEFAULT_ICON)
+                .parent(rootLocation)
+                .description("misc.craftoriotemplate.upgrade_attribute_" + idSuffix + "_description")
+                .cost(100)
+                .save(context, id("attribute_" + idSuffix), b -> CraftorioAttributeUpgrade.of(b, target, operation, value));
     }
 
     private static ResourceLocation id(String path) {
